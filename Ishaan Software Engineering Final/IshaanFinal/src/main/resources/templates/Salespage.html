@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Sales Page</title>
+  <style>
+    /* Add your CSS styles here */
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    table {
+      text-align: center;
+      margin-top: 20px;
+      border-collapse: collapse;
+      width: 80%;
+      max-width: 600px;
+    }
+
+    th, td {
+      border: 1px solid black;
+      padding: 8px;
+    }
+
+    form {
+      background-color: #0984d0;
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 20px;
+      text-align: center;
+      width: 80%;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
+    }
+
+    label, select, input[type="text"], input[type="number"], input[type="date"], button {
+      display: block;
+      margin: 10px 0;
+    }
+
+    button {
+      background-color: white;
+      color: blue;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+<h1>Sales Records</h1>
+
+<!-- Top table with columns for Salesman Name, Washing Machine, Refrigerator, and Music System -->
+<table>
+  <thead>
+  <tr>
+    <th>Salesman Name</th>
+    <th>Washing Machine</th>
+    <th>Refrigerator</th>
+    <th>Music System</th>
+  </tr>
+  </thead>
+  <tbody>
+  <!-- Iterate over salesList and populate the columns -->
+  <tr th:each="sale : ${salesList}">
+    <td th:text="${sale.name}"></td>
+    <td th:text="${sale.item == 'washing machine' ? sale.amount : ''}"></td>
+    <td th:text="${sale.item == 'refrigerator' ? sale.amount : ''}"></td>
+    <td th:text="${sale.item == 'music system' ? sale.amount : ''}"></td>
+  </tr>
+  </tbody>
+</table>
+
+<!-- Form to add new sales record -->
+<form th:object="${newSale}" th:action="@{/saveSale}" method="post">
+  <label>Salesman Name:</label>
+  <input type="text" th:field="*{name}" required>
+
+  <label>Item:</label>
+  <select th:field="*{item}" required>
+    <option value="washing machine">Washing Machine</option>
+    <option value="refrigerator">Refrigerator</option>
+    <option value="music system">Music System</option>
+  </select>
+
+  <label>Amount:</label>
+  <input type="number" th:field="*{amount}" required>
+
+  <label>Transaction Date:</label>
+  <input type="date" th:field="*{dateOfTransaction}" required>
+
+  <input type="submit" value="Save">
+</form>
+
+<!-- Bottom table with columns for Transaction Code, Salesman, Item, Amount, and Transaction Date -->
+<table>
+  <thead>
+  <tr>
+    <th>Transaction Code</th>
+    <th>Salesman</th>
+    <th>Item</th>
+    <th>Amount</th>
+    <th>Transaction Date</th>
+  </tr>
+  </thead>
+  <tbody>
+  <!-- Iterate over salesList and populate the columns -->
+  <tr th:each="sale : ${salesList}">
+    <td th:text="${sale.id}"></td>
+    <td th:text="${sale.name}"></td>
+    <td th:text="${sale.item}"></td>
+    <td th:text="${sale.amount}"></td>
+    <td th:text="${sale.dateOfTransaction}"></td>
+  </tr>
+  </tbody>
+</table>
+
+<script>
+  // Add your JavaScript code here
+</script>
+</body>
+</html>
